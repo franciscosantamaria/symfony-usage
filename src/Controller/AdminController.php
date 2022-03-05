@@ -2,17 +2,38 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-class AdminController
+class AdminController extends AbstractController
 {
 
     #[Route("/admin")]
     public function index()
     {
-        return new Response("<html><head><link rel='stylesheet' href='/css/estilos.css'></head><body>ENTRÉ!!</body></html>");
+        $usuarios = [
+            [
+                'isAdmin' => true,
+                'nombre' => 'kiko'
+            ],
+            [
+                'isAdmin' => false,
+                'nombre' => 'Adrian'
+            ],
+            [
+                'isAdmin' => true,
+                'nombre' => 'Juan'
+            ]
+        ];
+
+        $user = [
+          'isAdmin' => true,
+          'nombre' => 'kiko'
+        ];
+
+        return $this->render('base.html.twig');
     }
 
     #[Route("/user/{username}/last/{number}", methods: ['GET', 'POST'])]

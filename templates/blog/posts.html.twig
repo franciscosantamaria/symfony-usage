@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {# RECORRO LOS POSTS Y MUESTRO EL TITULO CON
+       UN ENLACE
+    #}
+
+    {% for post in posts %}
+        <p><a href="/blog/{{ post.title }}">{{ post.title }}</a></p>
+    {% endfor %}
+
+    {{ autor | default("ANONIMO") }}
+
+
+{% endblock %}
+
+{% block title %}
+    Listado de blogs
+{% endblock %}
+
