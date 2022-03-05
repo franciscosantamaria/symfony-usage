@@ -3,9 +3,12 @@
 namespace App\Model;
 
 
+use Symfony\Component\Validator\Constraints\Length;
+
 class Post
 {
     public $id;
+    #[Length(min: 10, minMessage: "El titulo tiene que ser de al menos 10 caracteres")]
     public $title;
     public $text;
     public $fechaCreacion;

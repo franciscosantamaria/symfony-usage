@@ -76,11 +76,11 @@ class BlogController extends AbstractController
             return $this->renderForm(
                 'blog/new-post.html.twig',
                 [
-                    'formulario' => $formulario
+                    'formulario' => $formulario,
+                    'titulo' => 'Nuevo post'
                 ]
             );
         }
-
     }
 
     #[Route("/blog/new-post/procesar", name: 'procesar-form')]
@@ -92,6 +92,40 @@ class BlogController extends AbstractController
         return $this->render('blog/new-post.html.twig');
     }
 
+    #[Route("/blog/{id}/edit", name: 'edit_post')]
+    public function editPost(int $id, Request $request)
+    {
+        foreach ($this->getPosts() as $post) {
+            if ($post->id === $id) {
+                $postDetail = $post;
+                break;
+            }
+        }
+
+        $formulario = $this->createForm(PostFormType::class, $postDetail);
+
+        $formulario->handleRequest($request);
+
+        if ($formulario->isSubmitted() && $formulario->isValid()) {
+            //dd($formulario->getData());
+            //actualizo en BBDD
+            $this->addFlash('exito', "Post modificado!!!");
+
+            return $this->redirectToRoute('homepage');
+        }
+
+
+        return $this->renderForm(
+            'blog/new-post.html.twig',
+            [
+                'formulario' => $formulario,
+                'titulo' => 'Modificar post'
+            ]
+        );
+
+
+
+    }
 
     #[Route("/getData")]
     public function getData(Request $request)

@@ -1,9 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(formulario) }}
-        {{ form_widget(formulario) }}
-    {{ form_end(formulario) }}
+    <div class="container">
+        <div class="row">
+            <h1>{{ titulo }}</h1>
+        </div>
+        <div class="row">
+            {{ form_start(formulario, {'attr': {'novalidate': 'novalidate'}}) }}
+            {{ form_widget(formulario) }}
+            {{ form_end(formulario) }}
+        </div>
+    </div>
 {% endblock %}
 
 {% block title %}
