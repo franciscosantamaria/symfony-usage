@@ -1,19 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/estilos-posts.css') }}"/>
-{% endblock %}
 {% block body %}
     {# RECORRO LOS POSTS Y MUESTRO EL TITULO CON
        UN ENLACE
     #}
+    <div class="container">
+        <div class="row">
+            {% for msg in app.flashes('exito') %}
+                <p>{{ msg }}</p>
+            {% endfor %}
 
-    {% for post in posts %}
-        <p><a href="{{ path('detalles_articulo', { 'title' : post.title}) }}">{{ post.title }}</a></p>
-    {% endfor %}
+            {% for post in posts %}
+                <p><a href="{{ path('detalles_articulo', { 'title' : post.title}) }}">{{ post.title }}</a></p>
+            {% endfor %}
 
-    {{ autor | default("ANONIMO") }}
+            <a href="{{ path('show-form') }}">CREAR POST</a>
+        </div>
+    </div>
 {% endblock %}
 
 {% block title %}
