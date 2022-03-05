@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Model\Post;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ApiBlogController
+class ApiBlogController extends AbstractController
 {
 
     #[Route("/api/blogs", methods: ['GET'])]
@@ -26,7 +26,9 @@ class ApiBlogController
         ];
         //devolver json
 
-        return new Response(json_encode($posts));
+        //return new Response(json_encode($posts));
+        //return new JsonResponse($posts);
+        return $this->json($posts);
     }
 
     private function getPosts(): array

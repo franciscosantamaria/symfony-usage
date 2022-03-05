@@ -32,8 +32,8 @@ class BlogController extends AbstractController
         ];
     }
 
-    #[Route("/blog/{title}")]
-    public function postDetail($title)
+    #[Route("/blog/articulo/{title}", name: "detalles_articulo")]
+    public function detalleArticulo($title)
     {
         $postDetail = null;
 
