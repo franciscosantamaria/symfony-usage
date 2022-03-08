@@ -20,6 +20,9 @@
                 <div class="col">
                     <a class="btn btn-secondary" href="{{ path('edit_post', {'id': post.id }) }}">Editar</a>
                 </div>
+                <div class="col">
+                    <a class="btn btn-secondary" href="{{ path('remove_post', {'id': post.id }) }}">Eliminar</a>
+                </div>
             {% endfor %}
 
             <a class="btn btn-primary" href="{{ path('show-form') }}">CREAR POST</a>
