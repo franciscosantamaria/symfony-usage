@@ -9,12 +9,30 @@ use App\Model\Comment;
 use App\Model\Post as PostAlias;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class BlogController extends AbstractController
 {
+
+    #[Route('/user_profile', name: 'detalles_usuario')]
+    public function userProfile(Security $security)
+    {
+        $usuarioLogado = $security->getUser();
+
+        return new Response("DETALLES DEL USUARIO: " . $usuarioLogado->getUsername());
+    }
+
+    #[Route('/admin', name: 'zona_admin')]
+    #[IsGranted("ROLE_ADMIN")]
+    public function zonaAdmin()
+    {
+        return new Response("FORMULARIO DE GESTION DE USUARIO!!!!");
+    }
 
     #[Route("/blog", name: 'homepage')]
     public function listPosts(EntityManagerInterface $em)
