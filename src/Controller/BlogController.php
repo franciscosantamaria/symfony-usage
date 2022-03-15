@@ -21,11 +21,6 @@ class BlogController extends AbstractController
     #[Route("/blog", name: 'homepage')]
     public function listPosts(EntityManagerInterface $em)
     {
-
-
-        //hice una query a la BBDD
-        $posts = $this->getPosts();
-
         $posts = $em->getRepository(Post::class)->findAll();
 
         return $this->render(
@@ -51,28 +46,28 @@ class BlogController extends AbstractController
     }
 
     #[Route("/blog/articulo/{title}", name: "detalles_articulo")]
-    public function detalleArticulo($title)
+    public function detalleArticulo(Post $post)
     {
-        $postDetail = null;
+        /*$postDetail = null;
 
         foreach ($this->getPosts() as $post) {
             if ($post->getTitle() == $title) {
                 $postDetail = $post;
                 break;
             }
-        }
+        }*/
 
         return $this->render(
             'blog/detail.html.twig',
             [
-                'post' => $postDetail
+                'post' => $post
             ]
         );
     }
 
 
-    #[Route("/blog/new-post", name: 'show-form')]
-    public function showNewPostForm(Request $request, int $numPosts, EntityManagerInterface $em, LoggerInterface $logger, DataRetriever $dr)
+    #[Route("/blog/new-post", name: 'new-post')]
+    public function newPost(Request $request, int $numPosts, EntityManagerInterface $em, LoggerInterface $logger, DataRetriever $dr)
     {
         $dr->enviar('el dato');
 
@@ -96,15 +91,6 @@ class BlogController extends AbstractController
                 ]
             );
         }
-    }
-
-    #[Route("/blog/new-post/procesar", name: 'procesar-form')]
-    public function procesarFormulario(Request $request)
-    {
-        $titulo = $request->request->get('titulo');
-        dd($titulo);
-
-        return $this->render('blog/new-post.html.twig');
     }
 
     #[Route("/blog/{id}/edit", name: 'edit_post')]
@@ -132,23 +118,6 @@ class BlogController extends AbstractController
                 'titulo' => 'Modificar post'
             ]
         );
-
-
-
-    }
-
-    #[Route("/insert-post/author/{author}")]
-    public function insertPost(EntityManagerInterface $em, $author)
-    {
-        $post = new Post();
-        $post->setTitle("Instalación de Symfony");
-        $post->setText("Los primeros pasos para instalar.........");
-        $post->setAuthor($author);
-
-        $em->persist($post);
-        $em->flush();
-
-        return new Response("<html><body>Se ha creado un post!!</body></html>");
     }
 
     #[Route("/eliminarPost/id/{id}", name: 'remove_post')]
@@ -156,70 +125,13 @@ class BlogController extends AbstractController
     {
         $post = $em->getRepository(Post::class)->find($id);
 
-
         if ($post == null) {
-            return new JsonResponse(['error' => 'usuario no existente'], 400);
+            $this->addFlash('error', 'El post no existe');
+        } else {
+            $em->remove($post);
+            $em->flush();
         }
-
-        $em->remove($post);
-        $em->flush();
 
         return $this->redirectToRoute('homepage');
     }
-
-    #[Route("/modificar-autor/id/{id}/author/{author}")]
-    public function modificarAuthor(EntityManagerInterface $em, $author, $id)
-    {
-        try {
-            $post = $em->getRepository(Post::class)->find($id);
-        } catch (\Exception $e) {
-
-        }
-
-
-        if ($post == null) {
-            return new JsonResponse(['error' => 'usuario no existente'], 400);
-        }
-
-        $post->setAuthor($author);
-        $em->flush();
-
-
-        return new Response("<html><body>Se ha modificado un post!!</body></html>");
-    }
-
-    #[Route("/get/posts")]
-    public function obtenerPosts(EntityManagerInterface $em)
-    {
-        $posts = $em->getRepository(Post::class)->findOneBy(['author' => 'Kiko']);
-
-        return new Response("<html><body>Lo que sea</body></html>");
-
-       /* $data = [];
-
-        foreach ($posts as $post) {
-            $data[] = ['id' => $post->getId(), 'title' => $post->getTitle()];
-        }
-
-        return new JsonResponse($data);*/
-
-
-
-        return new Response("Se ha creado un post!!");
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

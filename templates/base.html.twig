@@ -18,6 +18,18 @@
     {# ESTO ES UN COMENTARIO DENTRO DE UNA PLANTILLA TWIG!!! #}
     <!-- OTRO COMENTARIO -->
     <body>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ path('homepage') }}">
+                    <img src="{{ asset('img/logo.png') }}" alt="" width="100" class="d-inline-block align-text-top">
+                </a>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <a href="#" class="btn btn-secondary">Login</a>
+                </form>
+            </div>
+        </nav>
         {% block body %}{% endblock %}
     </body>
 </html>

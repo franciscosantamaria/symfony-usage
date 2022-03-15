@@ -12,20 +12,29 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
-
-            {% for post in posts %}
-                <div class="col">
-                    <p><a href="{{ path('detalles_articulo', { 'title' : post.title}) }}">{{ post.title }}</a></p>
-                </div>
-                <div class="col">
-                    <a class="btn btn-secondary" href="{{ path('edit_post', {'id': post.id }) }}">Editar</a>
-                </div>
-                <div class="col">
-                    <a class="btn btn-secondary" href="{{ path('remove_post', {'id': post.id }) }}">Eliminar</a>
-                </div>
-            {% endfor %}
-
-            <a class="btn btn-primary" href="{{ path('show-form') }}">CREAR POST</a>
+        </div>
+        <div class="row">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Titulo</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                    <tr>
+                        <td><a href="{{ path('detalles_articulo', { 'title' : post.title}) }}">{{ post.title }}</a></td>
+                        <td><a class="btn btn-secondary" href="{{ path('edit_post', {'id': post.id }) }}">Editar</a></td>
+                        <td><a class="btn btn-secondary" href="{{ path('remove_post', {'id': post.id }) }}">Eliminar</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <a class="btn btn-primary" href="{{ path('new-post') }}">CREAR POST</a>
         </div>
     </div>
 {% endblock %}
