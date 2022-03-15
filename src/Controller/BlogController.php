@@ -10,9 +10,7 @@ use App\Model\Post as PostAlias;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class BlogController extends AbstractController
@@ -48,15 +46,6 @@ class BlogController extends AbstractController
     #[Route("/blog/articulo/{title}", name: "detalles_articulo")]
     public function detalleArticulo(Post $post)
     {
-        /*$postDetail = null;
-
-        foreach ($this->getPosts() as $post) {
-            if ($post->getTitle() == $title) {
-                $postDetail = $post;
-                break;
-            }
-        }*/
-
         return $this->render(
             'blog/detail.html.twig',
             [
